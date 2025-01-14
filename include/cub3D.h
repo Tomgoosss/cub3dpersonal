@@ -6,7 +6,7 @@
 /*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 17:18:48 by qvan-ste          #+#    #+#             */
-/*   Updated: 2025/01/10 15:06:26 by tgoossen         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:30:47 by tgoossen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_map_data
 // Functions
 // Parsing
 int		create_map(char *file, t_map_data *map_data);
-int		main_mcheck(t_map_data map_data);
+int		main_mcheck(t_map_data *map_data);
 
 //Utils
 int		check_extension(char *arg);

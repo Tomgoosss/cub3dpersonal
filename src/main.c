@@ -6,7 +6,7 @@
 /*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:12:48 by qvan-ste          #+#    #+#             */
-/*   Updated: 2025/01/10 14:59:02 by tgoossen         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:30:57 by tgoossen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char **argv)
 	}
 	if (create_map(argv[1], &map_data) != SUCCESS)
 		return (1);
-	if	(main_mcheck(map_data) != SUCCESS)
+	if	(main_mcheck(&map_data) != SUCCESS)
 	{
 		ft_printf_fd(2, "Error\nMap not valid\n");
 		return(1);
