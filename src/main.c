@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomgoossens <tomgoossens@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:12:48 by qvan-ste          #+#    #+#             */
-/*   Updated: 2025/01/14 14:30:57 by tgoossen         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:44:28 by tomgoossens      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int	main(int argc, char **argv)
 		return (1);
 	if	(main_mcheck(&map_data) != SUCCESS)
 	{
-		ft_printf_fd(2, "Error\nMap not valid\n");
+		// ft_printf_fd(2, "Error\nMap not valid\n");
 		return(1);
 	}
-	ft_print_matrix(map_data .map);
+	// ft_print_matrix(map_data .map);
 	ft_free_matrix(map_data.map);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomgoossens <tomgoossens@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 17:18:48 by qvan-ste          #+#    #+#             */
-/*   Updated: 2025/01/14 14:30:47 by tgoossen         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:31:06 by tomgoossens      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,16 @@ typedef struct s_map_data
 	char	*ea_texture;
 	int		floor_color[3];
 	int		ceiling_color[3];
+	int		wall_left;
+	int		wall_right;
 }	t_map_data;
 
 // Functions
 // Parsing
 int		create_map(char *file, t_map_data *map_data);
 int		main_mcheck(t_map_data *map_data);
+int		is_not_map(char *line);
+int		check_map(t_map_data *map_data);
 
 //Utils
 int		check_extension(char *arg);
