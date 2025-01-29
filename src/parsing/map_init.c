@@ -52,39 +52,6 @@ int check_valid_char(char **map, int map_height, int i) {
     return SUCCESS;
 }
 
-int check_borders(char **map, int map_height) {
-    int i = 0;
-
-    while (map[0][i]) {
-        if (map[0][i] != '1' && map[0][i] != ' ' && map[0][i] != '\t')
-            return 1;
-        i++;
-    }
-    i = 0;
-    while (map[map_height - 1][i]) 
-	{
-        if (map[map_height - 1][i] != '1' && map[map_height - 1][i] != ' ' && map[map_height - 1][i] != '\t')
-            return 1;
-        i++;
-    }
-    i = 0;
-    while (i < map_height) {
-        int map_width = ft_strlen(map[i]);
-        int left = 0;
-        while (map[i][left] == ' ' || map[i][left] == '\t')
-            left++;
-        if (map[i][left] != '1')
-            return 1;
-        int right = map_width - 1;
-        while (right >= 0 && (map[i][right] == ' ' || map[i][right] == '\t'))
-            right--;
-        if (map[i][right] != '1')
-            return 1;
-        i++;
-    }
-    return SUCCESS;
-}
-
 int check_enclosed_zeros(char **map, int map_height) {
     int i = 0;
     int j;
@@ -95,8 +62,7 @@ int check_enclosed_zeros(char **map, int map_height) {
         map_width = strlen(map[i]);
 
         while (j < map_width) {
-            if (map[i][j] == '0') 
-			{
+            if (map[i][j] == '0') {
                 if (i > 0 && (map[i - 1][j] == ' ' || map[i - 1][j] == '\t'))
                     return 1;
                 if (i < map_height - 1 && (map[i + 1][j] == ' ' || map[i + 1][j] == '\t'))
@@ -104,6 +70,14 @@ int check_enclosed_zeros(char **map, int map_height) {
                 if (j > 0 && (map[i][j - 1] == ' ' || map[i][j - 1] == '\t'))
                     return 1;
                 if (j < map_width - 1 && (map[i][j + 1] == ' ' || map[i][j + 1] == '\t'))
+                    return 1;
+                if (i > 0 && j > 0 && (map[i - 1][j - 1] == ' ' || map[i - 1][j - 1] == '\t'))
+                    return 1;
+                if (i > 0 && j < map_width - 1 && (map[i - 1][j + 1] == ' ' || map[i - 1][j + 1] == '\t'))
+                    return 1;
+                if (i < map_height - 1 && j > 0 && (map[i + 1][j - 1] == ' ' || map[i + 1][j - 1] == '\t'))
+                    return 1;
+                if (i < map_height - 1 && j < map_width - 1 && (map[i + 1][j + 1] == ' ' || map[i + 1][j + 1] == '\t'))
                     return 1;
             }
             j++;
@@ -113,12 +87,88 @@ int check_enclosed_zeros(char **map, int map_height) {
     return SUCCESS;
 }
 
+int longest_line(char **map) {
+    int i = 0;
+    int max_length = 0;
+    int temp_length;
+
+    while (map[i]) 
+	{
+        temp_length = strlen(map[i]);
+        if (temp_length > max_length)
+            max_length = temp_length;
+        i++;
+    }
+    return max_length;
+}
+
+char *map_zero_fill(int length) {
+    char *line = (char *)malloc((length + 1) * sizeof(char));
+    if (!line) 
+	{
+        perror("Malloc failed");
+        exit(EXIT_FAILURE);
+    }
+    int i = 0;
+    while (i < length) {
+        line[i] = ' ';
+        i++;
+    }
+    line[length] = '\0';
+    return line;
+}
+
+char **fill_map(char **oldmap, int height) {
+    int i;
+    int l;
+	int j;
+
+	i = 0;
+	l = longest_line(oldmap) + 2;
+    char **newmap = (char **)malloc((height + 3) * sizeof(char *));
+    if (newmap == NULL) 
+	{
+        perror("Malloc failed");
+        exit(EXIT_FAILURE);
+    }
+    newmap[0] = map_zero_fill(l);
+    while (i < height) 
+	{
+        newmap[i + 1] = (char *)malloc((l + 1) * sizeof(char));
+        if (newmap[i + 1] == NULL) {
+            perror("Malloc failed");
+            exit(EXIT_FAILURE);
+        }
+        newmap[i + 1][0] = ' ';
+        j = 0;
+        while (oldmap[i][j]) {
+            newmap[i + 1][j + 1] = oldmap[i][j];
+            j++;
+        }
+        while (j < l - 1) {
+            newmap[i + 1][j + 1] = ' ';
+            j++;
+        }
+        newmap[i + 1][l - 1] = ' ';
+        newmap[i + 1][l] = '\0';
+        i++;
+    }
+    newmap[height + 1] = map_zero_fill(l);
+    newmap[height + 2] = NULL;
+    return newmap;
+}
+
 int is_surrounded_by_walls(char **map, int map_height) 
 {
-    if (check_borders(map, map_height) != SUCCESS)
+	char **temp_map;
+
+    temp_map = fill_map(map, map_height);
+    if (check_enclosed_zeros(temp_map, map_height + 2) != SUCCESS)
+	{
+		ft_free_matrix(temp_map);
         return 1;
-    if (check_enclosed_zeros(map, map_height) != SUCCESS)
-        return 1;
+	}
+	ft_free_matrix(temp_map);
     return SUCCESS;
 }
 

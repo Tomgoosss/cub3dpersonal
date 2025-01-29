@@ -5,25 +5,6 @@
 #include <string.h>
 #include <ctype.h>
 
-int is_not_map(char *line)
-{
-	static const char *list[] = {"NO ", "SO ", "WE ", "EA ", "F ", "C ", NULL};
-	int i;
-
-	i = 0;
-	if (!line || line[0] == '\0' || line[0] == '\n')
-		return (1);
-	while (*line && (*line == ' ' || *line == '\t'))
-		line++;
-	while(i < 6)
-	{
-		if(ft_strncmp(line, list[i], ft_strlen(list[i])) == 0)
-			return(1);
-		i++;
-	}
-	return (0);
-}
-
 int init_path(char *line, char **texture)
 {
 	size_t len;
@@ -51,6 +32,24 @@ int init_path(char *line, char **texture)
     }
 
     return (SUCCESS);
+}
+int is_not_map(char *line)
+{
+	static const char *list[] = {"NO ", "SO ", "WE ", "EA ", "F ", "C ", NULL};
+	int i;
+
+	i = 0;
+	if (!line || line[0] == '\0' || line[0] == '\n')
+		return (1);
+	while (*line && (*line == ' ' || *line == '\t'))
+		line++;
+	while(i < 6)
+	{
+		if(ft_strncmp(line, list[i], ft_strlen(list[i])) == 0)
+			return(1);
+		i++;
+	}
+	return (0);
 }
 
 int parse_color(char *line, int *color)
