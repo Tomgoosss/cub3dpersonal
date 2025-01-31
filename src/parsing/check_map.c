@@ -30,7 +30,6 @@ int init_path(char *line, char **texture)
         ft_printf_fd(2, "Error\n incorrect texture format: %s\n", line);
         return (1);
     }
-
     return (SUCCESS);
 }
 int is_not_map(char *line)
@@ -139,11 +138,27 @@ int check_if_init(t_map_data *map_data)
     return (SUCCESS);
 }
 
+void free_textures(t_map_data *map_data)
+{
+    if (map_data->ea_texture)
+        free(map_data->ea_texture);
+    if (map_data->no_texture)
+        free(map_data->no_texture);
+    if (map_data->we_texture)
+        free(map_data->we_texture);
+    if (map_data->so_texture)
+        free(map_data->so_texture);
+}
+
 int main_mcheck(t_map_data *map_data)
 {
+	map_data->ea_texture = NULL;
+	map_data->no_texture = NULL;
+	map_data->we_texture = NULL;
+	map_data->so_texture = NULL;
 	if(init_texpath(map_data->map, map_data) != SUCCESS)
 	{
-		// ft_printf_fd(2, "Invalid texture path\n");
+		ft_printf_fd(2, "Invalid texture path\n");
 		return(1);
 	}
 	if(check_if_init(map_data) != SUCCESS)
@@ -153,8 +168,9 @@ int main_mcheck(t_map_data *map_data)
 	}
 	if(check_map(map_data) != SUCCESS)
 	{
-		printf("Test\n");
+		printf("Error\nmap not valid\n");
+		free_textures(map_data);
+		return(1);
 	}
-
 	return(SUCCESS);
 }

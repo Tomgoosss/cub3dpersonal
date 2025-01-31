@@ -3,7 +3,7 @@ ORANGE=\033[0;33m
 GREEN =\033[0;32m
 NO_COLOUR =\033[0m
 
-CFILES = $(wildcard src/*.c) $(wildcard src/parsing/*.c) 
+CFILES = $(wildcard src/*.c) $(wildcard src/parsing/*.c) $(wildcard src/render/*.c) $(wildcard src/input/*.c) $(wildcard src/init/*.c) $(wildcard src/utils/*.c)
 
 OFILES = $(CFILES:.c=.o)
 
@@ -13,23 +13,23 @@ MLX42_FOLDER = libs/MLX42
 
 MLX42 = $(MLX42_FOLDER)/build/libmlx42.a
 
-LIBFT = $(LIBFT_FOLDER)/libft.a 
+LIBFT = $(LIBFT_FOLDER)/libft.a
 
 LFILES = $(LIBFT) $(MLX42)
 
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
+CFLAGS = -Wall -Wextra  -g -O3 #-Werror
 
-LDFLAGS = -L/opt/homebrew/lib -ldl -lglfw -pthread -lm
+LDFLAGS = -ldl -lglfw -pthread -lm 
 
 NAME = cub3D
 
-all: $(NAME)
+all:  $(NAME)
 
 .c.o:
 	@echo "$(ORANGE)[$(NAME)] Compiling $<$(NO_COLOUR)"
 	@$(CC) -c $(CFLAGS) $< -o $@
 
-$(NAME): $(LFILES) $(OFILES) 
+$(NAME): $(LFILES) $(OFILES)
 	@$(CC) $(CFLAGS) $(LDFLAGS) $(OFILES) $(LFILES) -o $(NAME)
 	@echo "$(GREEN)[$(NAME)] Compiling finished$(NO_COLOUR)"
 
@@ -56,4 +56,7 @@ fclean:  clean
 
 re: fclean all
 
-.PHONY:  all clean fclean re .c.o
+fps: CFLAGS += -DLIMIT_RESOLUTION=true
+fps: re
+
+.PHONY:  all clean fclean re .c.o fps

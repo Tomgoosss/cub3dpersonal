@@ -3,38 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomgoossens <tomgoossens@student.42.fr>    +#+  +:+       +#+        */
+/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:12:48 by qvan-ste          #+#    #+#             */
-/*   Updated: 2025/01/24 14:44:28 by tomgoossens      ###   ########.fr       */
+/*   Updated: 2025/01/31 15:34:08 by tgoossen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libs/libft/include/libft.h"
 #include "../include/cub3D.h"
+#include "../libs/libft/include/libft.h"
+
+#include <stdio.h>
+
+void print_map_data(t_map_data *map_data)
+{
+    printf("Map:\n");
+    if (map_data->map)
+    {
+        for (int i = 0; map_data->map[i]; i++)
+        {
+            printf("%s\n", map_data->map[i]);
+        }
+    }
+    else
+    {
+        printf("Map is not initialized.\n");
+    }
+
+    printf("NO Texture: %s\n", map_data->no_texture ? map_data->no_texture : "Not initialized");
+    printf("SO Texture: %s\n", map_data->so_texture ? map_data->so_texture : "Not initialized");
+    printf("WE Texture: %s\n", map_data->we_texture ? map_data->we_texture : "Not initialized");
+    printf("EA Texture: %s\n", map_data->ea_texture ? map_data->ea_texture : "Not initialized");
+
+    printf("Floor Color: %d, %d, %d\n", map_data->floor_color[0], map_data->floor_color[1], map_data->floor_color[2]);
+    printf("Ceiling Color: %d, %d, %d\n", map_data->ceiling_color[0], map_data->ceiling_color[1], map_data->ceiling_color[2]);
+}
 
 int	main(int argc, char **argv)
 {
+	t_data			data;
 	t_map_data	map_data;
 
-	if (argc != 2)
+	ft_bzero(&data, sizeof(t_data));
+	if (validate_input(argc, argv) != SUCCESS)
 	{
-		ft_printf_fd(2, "Error\nIncorrect number of argments\n");
-		return (1);
+		printf("test1\n");
+		return (FAILURE);
 	}
-	if (check_extension(argv[1]) != 0)
+	if (init_data(&data, argv[1], &map_data) != SUCCESS)
 	{
-		ft_printf_fd(2, "Error\nIncorrect file format\n");
-		return (1);
+		printf("test2\n");
+		free_data(data);
+		return (FAILURE);
 	}
-	if (create_map(argv[1], &map_data) != SUCCESS)
-		return (1);
-	if	(main_mcheck(&map_data) != SUCCESS)
-	{
-		// ft_printf_fd(2, "Error\nMap not valid\n");
-		return(1);
-	}
-	// ft_print_matrix(map_data .map);
-	ft_free_matrix(map_data.map);
-	return (0);
+	print_map_data(&map_data);
+	execute(&data);
+	free_data(data);
 }

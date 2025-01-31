@@ -16,22 +16,69 @@ int is_valid_map_char(char c) {
     return c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == ' ' || c == '\t';
 }
 
-int has_valid_starting_position(char **map, int map_height) {
+void cam_xy(int y, int x, char var, t_map_data *map_data)
+{
+	map_data->starting[0] = y;
+	map_data->starting[1] = x;
+	if (var == 'N') 
+	{
+		map_data->cam_vieuw[0] = 0;
+		map_data->cam_vieuw[1] = -1;
+    }
+    else if (var == 'S') 
+	{
+		map_data->cam_vieuw[0] = 0;
+		map_data->cam_vieuw[1] = 1;
+	}
+    else if (var == 'E') 
+	{
+		map_data->cam_vieuw[0] = 1;
+		map_data->cam_vieuw[1] = 0;
+    }    
+	else if (var == 'W') 
+	{
+		map_data->cam_vieuw[0] = -1;
+		map_data->cam_vieuw[1] = 0;
+    }
+}
+
+
+int has_valid_starting_position(char **map, int map_height, t_map_data *map_data) {
     int x = 0;
     int y = 0;
     int start_count = 0;
-
+	
     while (y < map_height) {
         x = 0;
         while (map[y][x]) {
-            if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E' || map[y][x] == 'W') {
+            if (map[y][x] == 'N') 
+			{
+                cam_xy(y, x, 'N', map_data);
                 start_count++;
             }
+            else if (map[y][x] == 'S') 
+			{
+                cam_xy(y, x, 'S', map_data);
+                start_count++;
+            }
+            else if (map[y][x] == 'E') 
+			{
+                cam_xy(y, x, 'E', map_data);
+                start_count++;
+            }
+            else if (map[y][x] == 'W') 
+			{
+                cam_xy(y, x, 'W', map_data);
+                start_count++;
+            }
+			if(start_count > 1)
+				return(1);
             x++;
         }
         y++;
     }
-    return start_count == 1;
+	printf("test x = %d\n test y = %d\n", map_data->starting[1], map_data->starting[0]);
+	return(SUCCESS);
 }
 
 int check_valid_char(char **map, int map_height, int i) {
@@ -182,7 +229,7 @@ int check_map(t_map_data *map_data) {
         map_height++;
     if (check_valid_char(map_data->map, map_height, i))
         return 1;
-    if (has_valid_starting_position(map_data->map + i, map_height) != 1)
+    if (has_valid_starting_position(map_data->map + i, map_height, map_data) != SUCCESS)
         return 1;
     if (is_surrounded_by_walls(map_data->map + i, map_height) != SUCCESS) {
         printf("Map is not surrounded by walls\n");
