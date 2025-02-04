@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomgoossens <tomgoossens@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:56:19 by qvan-ste          #+#    #+#             */
-/*   Updated: 2025/01/31 15:11:20 by tgoossen         ###   ########.fr       */
+/*   Updated: 2025/02/03 13:23:24 by tomgoossens      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,5 @@ void	execute(t_data *data)
 	mlx_key_hook(renderer, &handle_exit, data);
 	mlx_loop_hook(renderer, &game_loop, data);
 	mlx_loop(renderer);
-	printf("test\n");
 	mlx_terminate(renderer);
 }

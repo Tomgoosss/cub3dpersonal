@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomgoossens <tomgoossens@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 21:50:19 by qvan-ste          #+#    #+#             */
-/*   Updated: 2025/01/31 17:14:27 by tgoossen         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:12:50 by tomgoossens      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,40 +31,46 @@ static t_player	*init_player(int player_x, int player_y)
 	return (player);
 }
 
-static t_camera	*init_camera(int view_direction_x, int view_direction_y)
+static t_camera *init_camera(int view_direction_x, int view_direction_y)
 {
-	t_camera	*camera;
+    t_camera *camera;
 
-	camera = malloc(sizeof(t_camera));
-	if (!camera)
-	{
-		return (NULL);
-	}
-	camera->plane_x = 0;
-	camera->plane_y = 0.66;
-	camera->view_dir_x = view_direction_x;
-	camera->view_dir_y = view_direction_y;
-	return (camera);
+    camera = malloc(sizeof(t_camera));
+    if (!camera)
+    {
+        return (NULL);
+    }
+    camera->view_dir_x = view_direction_x;
+    camera->view_dir_y = view_direction_y;
+
+    if (view_direction_x == 0 && view_direction_y == 1)
+    {
+        camera->plane_x = 0.66;
+        camera->plane_y = 0;
+    }
+    else if (view_direction_x == 0 && view_direction_y == -1)
+    {
+        camera->plane_x = -0.66;
+        camera->plane_y = 0;
+    }
+    else if (view_direction_x == 1 && view_direction_y == 0)
+    {
+        camera->plane_x = 0;
+        camera->plane_y = -0.66;
+    }
+    else if (view_direction_x == -1 && view_direction_y == 0)
+    {
+        camera->plane_x = 0;
+        camera->plane_y = 0.66;
+    }
+    return (camera);
 }
 
-int	init_data(t_data *game, char *map_file, t_map_data *map_data)
+static int init_textures_and_colors(t_data *game, t_map_data *map_data) 
 {
     char *texture_paths[NUM_OF_TEXTURES + 1];
     int *rgb_floor;
     int *rgb_ceiling;
-
-    game->map = create_map(map_file, map_data);
-    if (!game->map)
-        return (FAILURE);
-
-    if (main_mcheck(map_data) != SUCCESS)
-        return (FAILURE);
-    game->player = init_player(map_data->starting[0], map_data->starting[1]);
-    if (!game->player)
-        return (FAILURE);
-    game->camera = init_camera(map_data->cam_vieuw[0], map_data->cam_vieuw[1]);
-    if (!game->camera)
-        return (FAILURE);
 
     texture_paths[0] = map_data->no_texture;
     texture_paths[1] = map_data->so_texture;
@@ -74,9 +80,27 @@ int	init_data(t_data *game, char *map_file, t_map_data *map_data)
 
     rgb_floor = map_data->floor_color;
     rgb_ceiling = map_data->ceiling_color;
-
     game->display = init_display(texture_paths, rgb_floor, rgb_ceiling);
     if (!game->display)
+        return (FAILURE);
+
+    return (SUCCESS);
+}
+
+int	init_data(t_data *game, char *map_file, t_map_data *map_data)
+{
+    game->map = create_map(map_file, map_data);
+    if (!game->map)
+        return (FAILURE);
+    if (main_mcheck(map_data) != SUCCESS)
+        return (FAILURE);
+    game->player = init_player(map_data->starting[0], map_data->starting[1]);
+    if (!game->player)
+        return (FAILURE);
+    game->camera = init_camera(map_data->cam_vieuw[0], map_data->cam_vieuw[1]);
+    if (!game->camera)
+        return (FAILURE);
+    if (init_textures_and_colors(game, map_data) != SUCCESS)
         return (FAILURE);
 
     return (SUCCESS);

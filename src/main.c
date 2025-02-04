@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomgoossens <tomgoossens@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:12:48 by qvan-ste          #+#    #+#             */
-/*   Updated: 2025/01/31 15:34:08 by tgoossen         ###   ########.fr       */
+/*   Updated: 2025/02/03 13:31:56 by tomgoossens      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char **argv)
 		free_data(data);
 		return (FAILURE);
 	}
-	print_map_data(&map_data);
+	// print_map_data(&map_data);
 	execute(&data);
 	free_data(data);
 }

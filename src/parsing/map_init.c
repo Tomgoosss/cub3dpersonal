@@ -22,23 +22,23 @@ void cam_xy(int y, int x, char var, t_map_data *map_data)
 	map_data->starting[1] = x;
 	if (var == 'N') 
 	{
-		map_data->cam_vieuw[0] = 0;
-		map_data->cam_vieuw[1] = -1;
+		map_data->cam_vieuw[0] = -1;
+		map_data->cam_vieuw[1] = 0;
     }
     else if (var == 'S') 
 	{
-		map_data->cam_vieuw[0] = 0;
-		map_data->cam_vieuw[1] = 1;
+		map_data->cam_vieuw[0] = 1;
+		map_data->cam_vieuw[1] = 0;
 	}
     else if (var == 'E') 
 	{
-		map_data->cam_vieuw[0] = 1;
-		map_data->cam_vieuw[1] = 0;
+        map_data->cam_vieuw[0] = 0;
+        map_data->cam_vieuw[1] = 1;
     }    
 	else if (var == 'W') 
 	{
-		map_data->cam_vieuw[0] = -1;
-		map_data->cam_vieuw[1] = 0;
+        map_data->cam_vieuw[0] = 0;
+        map_data->cam_vieuw[1] = -1;
     }
 }
 
@@ -47,38 +47,21 @@ int has_valid_starting_position(char **map, int map_height, t_map_data *map_data
     int x = 0;
     int y = 0;
     int start_count = 0;
-	
+
     while (y < map_height) {
         x = 0;
         while (map[y][x]) {
-            if (map[y][x] == 'N') 
-			{
-                cam_xy(y, x, 'N', map_data);
+            if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E' || map[y][x] == 'W') {
+				cam_xy(y, x, map[y][x], map_data);
                 start_count++;
             }
-            else if (map[y][x] == 'S') 
-			{
-                cam_xy(y, x, 'S', map_data);
-                start_count++;
-            }
-            else if (map[y][x] == 'E') 
-			{
-                cam_xy(y, x, 'E', map_data);
-                start_count++;
-            }
-            else if (map[y][x] == 'W') 
-			{
-                cam_xy(y, x, 'W', map_data);
-                start_count++;
-            }
-			if(start_count > 1)
-				return(1);
+            if (start_count > 1)
+                return 1;
             x++;
         }
         y++;
     }
-	printf("test x = %d\n test y = %d\n", map_data->starting[1], map_data->starting[0]);
-	return(SUCCESS);
+    return start_count == 1 ? SUCCESS : 1;
 }
 
 int check_valid_char(char **map, int map_height, int i) {
