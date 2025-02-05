@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   compute_line.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: qvan-ste <qvan-ste@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/01/15 19:16:00 by qvan-ste      #+#    #+#                 */
-/*   Updated: 2025/01/22 18:58:55 by qvan-ste      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   compute_line.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 19:16:00 by qvan-ste          #+#    #+#             */
+/*   Updated: 2025/02/05 16:22:50 by tgoossen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,5 @@ void	compute_line(t_data *data, t_line *line)
 	compute_line_properties(line, line->ray, data->display->height);
 	compute_texture_properties(line, line->ray,
 		data->player, data->display->textures);
+	printf("test = %d %d\n", line->draw_end, line->draw_start);
 }
