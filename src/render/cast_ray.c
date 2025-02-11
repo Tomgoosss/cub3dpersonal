@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cast_ray.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/17 16:23:27 by qvan-ste          #+#    #+#             */
-/*   Updated: 2025/01/31 15:33:05 by tgoossen         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cast_ray.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: qvan-ste <qvan-ste@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/01/17 16:23:27 by qvan-ste      #+#    #+#                 */
+/*   Updated: 2025/01/22 12:49:50 by qvan-ste      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,6 @@ static void	perform_dda(t_ray *ray, char **map)
 	bool	hit_wall;
 
 	hit_wall = false;
-	// int i = 0;
-	// while(map[i])
-	// {
-	// 	printf("map = %s\n", map[i]);
-	// 	i++;
-	// }
 	while (hit_wall == false)
 	{
 		if (ray->side_dist_x < ray->side_dist_y)

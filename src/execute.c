@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/15 15:56:19 by qvan-ste          #+#    #+#             */
-/*   Updated: 2025/02/05 16:55:17 by tgoossen         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   execute.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: qvan-ste <qvan-ste@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/01/15 15:56:19 by qvan-ste      #+#    #+#                 */
+/*   Updated: 2025/01/22 19:06:30 by qvan-ste      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,12 @@ static void	compute_frame(t_data *data)
 
 	i = 0;
 	display = data->display;
-	while (i < display->width )
+	while (i < display->width)
 	{
 		line = &data->display->lines[i];
-		compute_line(data, line); // doesnt safe draw end and start good
-		printf("i = %d\n", i);
+		compute_line(data, line);
 		i++;
 	}
-	printf("test = %d %d %d\n", display->lines->draw_end, display->lines->draw_start, display->lines->screen_pos_x);
 }
 
 static void	game_loop(void *param)

@@ -17,9 +17,8 @@ LIBFT = $(LIBFT_FOLDER)/libft.a
 
 LFILES = $(LIBFT) $(MLX42)
 
-CFLAGS = -Wall -Wextra  -g -O3 #-Werror
-
-LDFLAGS =  -ldl -lglfw -pthread -lm #-L/opt/homebrew/lib
+CFLAGS = -Wall -Werror -Wextra -O2
+LDFLAGS = -ldl -lglfw -pthread -lm
 
 NAME = cub3D
 
